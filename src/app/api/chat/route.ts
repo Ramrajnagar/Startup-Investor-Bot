@@ -1,5 +1,5 @@
 import { google } from '@ai-sdk/google';
-import { streamText } from 'ai';
+import { streamText, convertToModelMessages } from 'ai';
 import { SYSTEM_PROMPT_BASE, ROAST_MODE_ADDITION } from '@/lib/prompt';
 
 export const runtime = 'nodejs';
@@ -19,10 +19,13 @@ export async function POST(req: Request) {
       ? `${SYSTEM_PROMPT_BASE}\n${ROAST_MODE_ADDITION}` 
       : SYSTEM_PROMPT_BASE;
 
+    // Convert UI messages to model messages to match the expected schema
+    const modelMessages = await convertToModelMessages(messages);
+
     const result = await streamText({
       model: google('gemini-2.0-flash'),
       system: systemPrompt,
-      messages,
+      messages: modelMessages,
       temperature: isCriticalMode ? 0.85 : 0.65,
     });
 
@@ -30,7 +33,6 @@ export async function POST(req: Request) {
   } catch (error: any) {
     console.error("API Route Error:", error);
     
-    // Provide a structured error response
     return new Response(
       JSON.stringify({ 
         error: "Investment evaluation failed due to a system error.", 
