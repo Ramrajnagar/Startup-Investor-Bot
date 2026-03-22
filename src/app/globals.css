@@ -1,0 +1,64 @@
+@import "tailwindcss";
+
+@theme {
+  --color-vc-bg: #030712;
+  --color-vc-panel: #111827;
+  --color-vc-border: #1f2937;
+  --color-vc-text: #f9fafb;
+  --color-vc-muted: #9ca3af;
+  --color-vc-accent: #3b82f6;
+  --color-roast-bg: #450a0a;
+  --color-roast-panel: #1a0505;
+  --color-roast-border: #7f1d1d;
+  --color-roast-accent: #ef4444;
+}
+
+@layer base {
+  :root {
+    --background: var(--color-vc-bg);
+    --foreground: var(--color-vc-text);
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-inter), sans-serif;
+  }
+}
+
+.roast-mode body {
+  --background: #110202;
+  --foreground: #fecaca;
+}
+
+@keyframes float {
+  0% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(1deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(0.8); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+  100% { transform: scale(0.8); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+}
+
+.animate-pulse-ring {
+  animation: pulse-ring 2s infinite cubic-bezier(0.66, 0, 0, 1);
+}
+
+.glass-panel {
+  background: rgba(17, 24, 39, 0.5);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.roast-mode .glass-panel {
+  background: rgba(69, 10, 10, 0.3);
+  border: 1px solid rgba(239, 68, 68, 0.1);
+}
